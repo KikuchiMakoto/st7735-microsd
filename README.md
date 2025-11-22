@@ -9,7 +9,7 @@ sudo cp sainsmart-st7735-microsd.dtbo /boot/firmware/overlays/
 
 About config.txt
 ```txt
-dtoverlay=sainsmart-st7735-microsd,rotate=270
+dtoverlay=sainsmart-st7735-microsd
 ```
 
 About Font
