@@ -1,0 +1,77 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+
+    fragment@0 {
+        target = <&spi0>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
+
+    fragment@1 {
+        target = <&spidev0>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
+
+    fragment@2 {
+        target = <&spidev1>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
+
+    fragment@3 {
+        target = <&spi0>;
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            status = "okay";
+
+            /* ST7735 device on SPI0 using hardware CS (CE0) */
+            st7735@0 {
+                compatible = "sitronix,st7735r";
+                reg = <0>; /* CE0 */
+                spi-max-frequency = <32000000>;
+
+                /* panel geometry (adjust if your module is different) */
+                width = <128>;
+                height = <160>;
+                x-offset = <0>;
+                y-offset = <0>;
+
+                /* common init values (tune if needed) */
+                madctl = <0xc0>;
+                colmod = <0x05>;
+
+                /* control GPIOs (BCM numbers) */
+                reset-gpios = <&gpio 25 0>; /* PIN22 */
+                dc-gpios    = <&gpio 24 0>; /* PIN18 */
+
+                /* Using hardware CS (CE0) so no cs-gpios specified */
+
+                status = "okay";
+            };
+
+            /* Placeholder for microSD on CE1 (disabled by default) */
+            mmc_spi@1 {
+                compatible = "mmc-spi";
+                reg = <1>; /* CE1 (GPIO7 pin26) */
+                spi-max-frequency = <20000000>;
+                status = "disabled";
+            };
+        };
+    };
+
+    __overrides__ {
+        speed     = <&st7735>,"spi-max-frequency:0";
+        width     = <&st7735>,"width:0";
+        height    = <&st7735>,"height:0";
+        dc_pin    = <&st7735>,"dc-gpios:4";
+        reset_pin = <&st7735>,"reset-gpios:4";
+    };
+};
