@@ -24,7 +24,7 @@
                 reg = <0>; /* CE0 */
                 pinctrl-names = "default";
                 spi-max-frequency = <40000000>;
-                rotate = <90>;
+                rotate = <0>;
                 buswidth = <8>;
                 fps = <50>;
                 height = <160>;
