@@ -33,6 +33,15 @@
                 dc-gpios    = <&gpio 24 0>; /* PIN18 */
                 debug = <0>;
             };
+
+            /* microSD card on CE1 */
+            microsd@1 {
+                compatible = "mmc-spi-slot";
+                reg = <1>; /* CE1 */
+                spi-max-frequency = <25000000>;
+                voltage-ranges = <3300 3300>;
+                status = "okay";
+            };
         };
     };
 
